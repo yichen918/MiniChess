@@ -13,7 +13,36 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  return 0;
+  int value;
+  int self_val, oppn_val;
+  bool not_find_my_king = true;
+  bool not_find_oppn_king = true;
+  auto self_board = this->board.board[this->player];
+  auto oppn_board = this->board.board[1 - this->player];
+
+  for(int i=0;i<BOARD_W;i++)
+  {
+    for(int j=0;j<BOARD_H;j++)
+    {
+      if( self_board[i][j] == 1) self_val += 10;
+      if( self_board[i][j] == 2) self_val += 30;
+      if( self_board[i][j] == 3) self_val += 35;
+      if( self_board[i][j] == 4) self_val += 40;
+      if( self_board[i][j] == 5) self_val += 100;
+      if( self_board[i][j] == 6) not_find_my_king = false;
+
+      if( oppn_board[i][j] == 1) oppn_val += 10;
+      if( oppn_board[i][j] == 2) oppn_val += 30;
+      if( oppn_board[i][j] == 3) oppn_val += 35;
+      if( oppn_board[i][j] == 4) oppn_val += 40;
+      if( oppn_board[i][j] == 5) oppn_val += 100;
+      if( oppn_board[i][j] == 6) not_find_oppn_king = false;
+    }
+  }
+
+  if(not_find_my_king) return 0;
+  else if(not_find_oppn_king) return INT8_MAX;
+  else return self_val - oppn_val;
 }
 
 
