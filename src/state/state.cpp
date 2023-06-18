@@ -15,6 +15,7 @@
  */
 
 int State::evaluate(){
+  
   // [TODO] design your own evaluation function
   int value;
   int self_val, oppn_val;
@@ -27,45 +28,47 @@ int State::evaluate(){
   {
     for(int j=0;j<BOARD_W;j++)
     {
-      if( self_board[i][j] == 1) 
+      if( self_board[i][j] == '1') 
       {
         self_val += 10;
-        if(this->player == 1) self_val += (60 - 10*(BOARD_H - i));
+        if(this->player == '1') self_val += (60 - 10*(BOARD_H - i));
         else self_val += 10*(BOARD_H - i);
       }
-      if( self_board[i][j] == 2) self_val += 30;
-      if( self_board[i][j] == 3) self_val += 35;
-      if( self_board[i][j] == 4) self_val += 40;
-      if( self_board[i][j] == 5) self_val += 100;
-      if( self_board[i][j] == 6) 
+      if( self_board[i][j] == '2') self_val += 30;
+      if( self_board[i][j] == '3') self_val += 35;
+      if( self_board[i][j] == '4') self_val += 40;
+      if( self_board[i][j] == '5') self_val += 100;
+      if( self_board[i][j] == '6') 
       {
         not_find_my_king = false;
-        if(self_board[i+1][j] == 0 || self_board[i-1][j] == 0 || self_board[i][j+1] == 0 || self_board[i][j-1] == 0)
+        if(self_board[i+1][j] == '0' || self_board[i-1][j] == '0' || self_board[i][j+1] == '0' || self_board[i][j-1] == '0')
           self_val -= 20;
       }
 
-      if( oppn_board[i][j] == 1) 
+      if( oppn_board[i][j] == '1') 
       {
         oppn_val += 10;
-        if(this->player == 1) oppn_val += (60 - 10*(BOARD_H - i));
+        if(this->player == '1') oppn_val += (60 - 10*(BOARD_H - i));
         else oppn_val += 10*(BOARD_H - i);
       }
-      if( oppn_board[i][j] == 2) oppn_val += 30;
-      if( oppn_board[i][j] == 3) oppn_val += 35;
-      if( oppn_board[i][j] == 4) oppn_val += 40;
-      if( oppn_board[i][j] == 5) oppn_val += 100;
-      if( oppn_board[i][j] == 6) 
+      if( oppn_board[i][j] == '2') oppn_val += 30;
+      if( oppn_board[i][j] == '3') oppn_val += 35;
+      if( oppn_board[i][j] == '4') oppn_val += 40;
+      if( oppn_board[i][j] == '5') oppn_val += 100;
+      if( oppn_board[i][j] == '6') 
       {
         not_find_oppn_king = false;
-        if(oppn_board[i+1][j] == 0 || oppn_board[i-1][j] == 0 || oppn_board[i][j+1] == 0 || oppn_board[i][j-1] == 0)
+        if(oppn_board[i+1][j] == '0' || oppn_board[i-1][j] == '0' || oppn_board[i][j+1] == '0' || oppn_board[i][j-1] == '0')
           oppn_val -= 20;
       }
-    }
+    }   
   }
 
   if(not_find_my_king) return 0;
-  else if(not_find_oppn_king) return  INT8_MAX;
+  else if(not_find_oppn_king) return INT8_MAX;
   else return self_val - oppn_val;
+
+ //return this->player+1;
 }
 
 /**
