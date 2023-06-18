@@ -134,7 +134,7 @@ void State::get_legal_actions(){
   for(int i=0; i<BOARD_H; i+=1){
     for(int j=0; j<BOARD_W; j+=1){
       if((now_piece=self_board[i][j])){
-        // std::cout << this->player << "," << now_piece << ' ';
+         //std::cout << this->player << "," << now_piece << ' ';
         switch (now_piece){
           case 1: //pawn
             if(this->player && i<BOARD_H-1){
@@ -416,6 +416,7 @@ int main(int argc, char** argv) {
     // Output current state
     std::cout << step << " step" << std::endl;
     log << step << " step" << std::endl;
+    log << temp.evaluate();
     data = game.encode_output();
     std::cout << data << std::endl;
     log << data << std::endl;
@@ -465,6 +466,7 @@ int main(int argc, char** argv) {
       log << data;
       game.player = !game.player;
       game.game_state = WIN;
+      log << game.
       break;
     }else{
       temp = game.next_state(action);

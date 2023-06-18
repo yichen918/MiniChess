@@ -30,8 +30,8 @@ int State::evaluate(){
       if( self_board[i][j] == 1) 
       {
         self_val += 10;
-        //if(this->player == 1) self_val += (60 - 10*(BOARD_H - i));
-        //else self_val += 10*(BOARD_H - i);
+        if(this->player == 1) self_val += (60 - 10*(BOARD_H - i));
+        else self_val += 10*(BOARD_H - i);
       }
       if( self_board[i][j] == 2) self_val += 30;
       if( self_board[i][j] == 3) self_val += 35;
