@@ -1,5 +1,7 @@
 #include <cstdlib>
 #include <iostream>
+#include <fstream>
+#include <string>
 #include <cmath>
 #include <queue>
 
@@ -16,35 +18,29 @@
  */
 
 int visited[BOARD_H][BOARD_W] = {0};
-int dx[4] = {0, 0, -1, 1};
-int dy[4] = {-1, 1, 0, 0};
+int val = 0;
 
 int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
 {
-    int val;
 
-    auto board = this->board.board[this->player];
-    priority_queue<State> pq;
+    if(depth == 0)
+        return val;
 
-    if(depth ==0 || this->evaluate() == 0)
-        return this->evaluate();
-
-    if()
+    if(minimaxingplayer)
     {
         val = -INT16_MAX;
-        for(auto &p : )
-            val = std::max(val, minimax_cnt(, depth-1, false));
+        for(auto &p: state->legal_actions)
+                val = std::max(val, minimax_cnt(state->next_state(p), depth-1, false));
         return val;
     } 
     else
     {
         val = INT16_MAX;
-        for(auto &p: )
-            val = std::min(val, minimax_cnt(, depth-1, true));
+        for(auto &p: state->legal_actions)
+            val = std::min(val, minimax_cnt(state->next_state(p), depth-1, true));
         return val;
     }
 }
-
 
 /**
  * @brief Randomly get a legal action
@@ -53,10 +49,11 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
  * @param depth You may need this for other policy
  * @return Move 
  */
+
 Move Minimax::get_move(State *state, int depth){
   if(!state->legal_actions.size())
     state->get_legal_actions();
   
   auto actions = state->legal_actions;
-  return actions[(rand()+depth)%actions.size()];
+  return actions[(minimax_cnt(state, 2, true))%actions.size()];
 }

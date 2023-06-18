@@ -1,6 +1,8 @@
 #include <iostream>
 #include <sstream>
 #include <cstdint>
+#include <cmath>
+#include <algorithm>
 
 #include "./state.hpp"
 #include "../config.hpp"
@@ -11,6 +13,7 @@
  * 
  * @return int 
  */
+
 int State::evaluate(){
   // [TODO] design your own evaluation function
   int value;
@@ -20,15 +23,15 @@ int State::evaluate(){
   auto self_board = this->board.board[this->player];
   auto oppn_board = this->board.board[1 - this->player];
 
-  for(int i=0;i<BOARD_W;i++)
+  for(int i=0;i<BOARD_H;i++)
   {
-    for(int j=0;j<BOARD_H;j++)
+    for(int j=0;j<BOARD_W;j++)
     {
       if( self_board[i][j] == 1) 
       {
         self_val += 10;
-        if(this->player == 1) self_val += (60 - 10*(BOARD_H - i));
-        else self_val += 10*(BOARD_H - i);
+        //if(this->player == 1) self_val += (60 - 10*(BOARD_H - i));
+        //else self_val += 10*(BOARD_H - i);
       }
       if( self_board[i][j] == 2) self_val += 30;
       if( self_board[i][j] == 3) self_val += 35;
@@ -60,11 +63,10 @@ int State::evaluate(){
     }
   }
 
-  if(not_find_my_king) return State::value = 0;
-  else if(not_find_oppn_king) return State::value = INT8_MAX;
-  else return State::value = self_val - oppn_val;
+  if(not_find_my_king) return 0;
+  else if(not_find_oppn_king) return  INT8_MAX;
+  else return self_val - oppn_val;
 }
-
 
 /**
  * @brief return next state after the move
