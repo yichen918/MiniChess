@@ -55,7 +55,7 @@ int State::evaluate(){
       {
         not_find_oppn_king = false;
         if(oppn_board[i+1][j] == 0 || oppn_board[i-1][j] == 0 || oppn_board[i][j+1] == 0 || oppn_board[i][j-1] == 0)
-          self_val -= 20;
+          oppn_val -= 20;
       }
     }
   }
