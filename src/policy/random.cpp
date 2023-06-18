@@ -12,9 +12,9 @@
  * @return Move 
  */
 Move Random::get_move(State *state, int depth){
-  if(!state->legal_actions.size())
+  if(!state->legal_actions.size() && state->value>=state->evaluate())
     state->get_legal_actions();
   
   auto actions = state->legal_actions;
-  return actions[(rand()+depth)%actions.size()];
+  return actions[(state->value+depth)%actions.size()];
 }
