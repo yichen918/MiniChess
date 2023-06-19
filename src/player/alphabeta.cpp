@@ -45,7 +45,7 @@ void write_valid_spot(std::ofstream& fout) {
     auto move = Alphabeta::get_move(root, 4);
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second << std::endl;
-    
+
     // Remember to flush the output to ensure the last action is written to file.
     fout.flush();
     break;

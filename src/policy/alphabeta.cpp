@@ -21,6 +21,7 @@ int visited[BOARD_H][BOARD_W] = {0};
 int val = 0;
 int pick = 0;
 int final_pick = 0;
+int max_pick = 0;
 int min_pick = 0;
 int pick_array[10000];
 
@@ -50,10 +51,10 @@ int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool 
             if(alpha >= beta) 
                 break;
         }
-        
+
     }
 
-    if(depth == 7)
+    if(depth == 3)
     {
         pick_array[pick] = val;
         pick++;
@@ -73,13 +74,13 @@ Move Alphabeta::get_move(State *state, int depth){
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
-  int m = alphabeta_cnt(state, 8, -INT16_MAX, INT16_MAX, state->player);
+  int m = alphabeta_cnt(state, 4, -INT16_MAX, INT16_MAX, 1);
 
   for(int k=0; k<pick ; k++)
   {
-    if(pick_array[k] <= min_pick) 
+    if(pick_array[k] <= max_pick) 
     {
-        min_pick = pick_array[k];
+        max_pick = pick_array[k];
         final_pick = k;
     }
   }
