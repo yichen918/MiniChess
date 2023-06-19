@@ -40,23 +40,23 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
 
     else if(minimaxingplayer)
     {
-        val = -INT16_MAX;
+        val = -1000000;
         for(auto &p: state->legal_actions)
             val = std::max(val, minimax_cnt(state->next_state(p), depth-1, !minimaxingplayer));
     } 
     else
     {
-        val = INT16_MAX;
+        val = 1000000;
         for(auto &p: state->legal_actions)
             val = std::min(val, minimax_cnt(state->next_state(p), depth-1, !minimaxingplayer));
     }
 
-    if(depth == 1)
+    /*if(depth == 1)
     {
         i = val;
         pick_array[pick] = i;
         pick++;
-    }
+    }*/
 
     return val;
 }
@@ -72,12 +72,22 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
 Move Minimax::get_move(State *state, int depth){
   if(!state->legal_actions.size())
     state->get_legal_actions();
-
-  int m = minimax_cnt(state, 2, 1);
-
-  for(int k = 0; k < pick; k++)
+  
+  int i = 0;
+  int pick_array[10000];
+  for(auto &p : state->legal_actions)
   {
-    if(pick_array[k] >= max_pick) 
+    pick_array[i] = minimax_cnt(state->next_state(p), depth-1, true);
+    i++;
+  }
+  
+  //int m = alphabeta_cnt(state, depth, -INT16_MAX, INT16_MAX, state->player);
+  int final_pick = 0;
+
+  int max_pick = -1e6;
+  for(int k=0; k < i ; k++)
+  {
+    if(pick_array[k] > max_pick) 
     {
         max_pick = pick_array[k];
         final_pick = k;
