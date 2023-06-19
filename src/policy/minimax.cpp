@@ -27,7 +27,9 @@ int pick_array[10000];
 
 int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
 {
-
+    if(!state->legal_actions.size())
+      state->get_legal_actions();
+    if(state->game_state == WIN && state->player == minimaxingplayer) return INT64_MAX;
     if(depth == 0)
         return state->evaluate();
 
@@ -35,16 +37,16 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
     {
         val = -INT16_MAX;
         for(auto &p: state->legal_actions)
-            val = std::max(val, minimax_cnt(state->next_state(p), depth-1, !minimaxingplayer));
+            val = std::max(val, minimax_cnt(state->next_state(p), depth-1, false));
     } 
     else
     {
         val = INT16_MAX;
         for(auto &p: state->legal_actions)
-            val = std::min(val, minimax_cnt(state->next_state(p), depth-1, !minimaxingplayer));
+            val = std::min(val, minimax_cnt(state->next_state(p), depth-1, true));
     }
 
-    if(depth == 1)
+    if(depth == 3)
     {
         i = val;
         pick_array[pick] = i;
@@ -66,7 +68,7 @@ Move Minimax::get_move(State *state, int depth){
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
-  int m = minimax_cnt(state, 2, 1);
+  int m = minimax_cnt(state, 4, 1);
 
   for(int k=0; k<pick ; k++)
   {
