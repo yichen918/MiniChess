@@ -30,13 +30,15 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
 
     if(!state->legal_actions.size())
       state->get_legal_actions();
-    if(state->game_state == WIN && state->player == minimaxingplayer) 
-      return INT64_MAX;
+    if(state->game_state == WIN && minimaxingplayer) 
+      return 1000000;
+    else if(state->game_state == WIN && !minimaxingplayer)
+      return -1000000;
 
-    if(depth == 0)
-        return state->evaluate();
+    else if(!depth)
+        return state->evaluate(minimaxingplayer);
 
-    if(minimaxingplayer)
+    else if(minimaxingplayer)
     {
         val = -INT16_MAX;
         for(auto &p: state->legal_actions)

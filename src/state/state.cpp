@@ -7,72 +7,82 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
-bool player;
+int myplayer = 0;
 /**
  * @brief evaluate the state
  * 
  * @return int 
  */
-
-int State::evaluate(){
+//count the value for me
+int State::evaluate(bool minimaxingplayer){
   
   // [TODO] design your own evaluation function
 
-  //if(minimaxingplayer) player = 1;
-  //else player = 0;
+  //decide this player is me or not; if minimaxingplayer is true then this player id=s me
+  if(minimaxingplayer) myplayer = this->player;
+  else myplayer = 1-this->player;
 
-  int value;
-  int self_val, oppn_val;
+  int value = 0;
+  int self_val = 0;
+  int oppn_val = 0;
   bool not_find_my_king = true;
   bool not_find_oppn_king = true;
-  auto self_board = this->board.board[player];
-  auto oppn_board = this->board.board[player];
+  auto self_board = this->board.board[myplayer];
+  auto oppn_board = this->board.board[1 - myplayer];
 
   for(int i=0;i<BOARD_H;i++)
   {
     for(int j=0;j<BOARD_W;j++)
     {
-      if( self_board[i][j] == '1') 
+      if( self_board[i][j] == 1) 
       {
-        self_val += 10;
-        if(this->player == '1') self_val += (60 - 10*(BOARD_H - i));
-        else self_val += 10*(BOARD_H - i);
+        self_val += 50;
+        //if(this->player == 1) self_val += (60 - 10*(BOARD_H - i));
+        //else self_val += 10*(BOARD_H - i);
       }
-      if( self_board[i][j] == '2') self_val += 30;
-      if( self_board[i][j] == '3') self_val += 35;
-      if( self_board[i][j] == '4') self_val += 40;
-      if( self_board[i][j] == '5') self_val += 100;
-      if( self_board[i][j] == '6') 
+      if( self_board[i][j] == 2) self_val += 30;
+      if( self_board[i][j] == 3) self_val += 35;
+      if( self_board[i][j] == 4) self_val += 40;
+      if( self_board[i][j] == 5) self_val += 100;
+      if( self_board[i][j] == 6) 
       {
         not_find_my_king = false;
-        if(self_board[i+1][j] == '0' || self_board[i-1][j] == '0' || self_board[i][j+1] == '0' || self_board[i][j-1] == '0')
-          self_val -= 20;
+        ///if(self_board[i+1][j] == 0 || self_board[i-1][j] == 0 || self_board[i][j+1] == 0 || self_board[i][j-1] == 0)
+          //self_val -= 20;
       }
 
-      if( oppn_board[i][j] == '1') 
+      if( oppn_board[i][j] == 1) 
       {
-        oppn_val += 10;
-        if(this->player == '1') oppn_val += (60 - 10*(BOARD_H - i));
-        else oppn_val += 10*(BOARD_H - i);
+        oppn_val += 50;
+        //if(this->player == 1) oppn_val += (60 - 10*(BOARD_H - i));
+        //else oppn_val += 10*(BOARD_H - i);
       }
-      if( oppn_board[i][j] == '2') oppn_val += 30;
-      if( oppn_board[i][j] == '3') oppn_val += 35;
-      if( oppn_board[i][j] == '4') oppn_val += 40;
-      if( oppn_board[i][j] == '5') oppn_val += 100;
-      if( oppn_board[i][j] == '6') 
+      if( oppn_board[i][j] == 2) oppn_val += 30;
+      if( oppn_board[i][j] == 3) oppn_val += 35;
+      if( oppn_board[i][j] == 4) oppn_val += 40;
+      if( oppn_board[i][j] == 5) oppn_val += 100;
+      if( oppn_board[i][j] == 6) 
       {
         not_find_oppn_king = false;
-        if(oppn_board[i+1][j] == '0' || oppn_board[i-1][j] == '0' || oppn_board[i][j+1] == '0' || oppn_board[i][j-1] == '0')
-          oppn_val -= 20;
+        //if(oppn_board[i+1][j] == 0 || oppn_board[i-1][j] == 0 || oppn_board[i][j+1] == 0 || oppn_board[i][j-1] == 0)
+          //oppn_val -= 20;
       }
     }   
   }
+  
+  if(not_find_my_king) {
+    std::cout << -2000 << std::endl;
+    return -2000;
+  }
+  else if(not_find_oppn_king)  {
+    std::cout << 2000 << std::endl;
+    return 2000;
+  }
+  
+  //std::cout << self_val - oppn_val << std::endl;
+  return self_val - oppn_val;
+  
 
-  if(not_find_my_king) return 0;
-  else if(not_find_oppn_king) return INT8_MAX;
-  else return self_val - oppn_val;
-
- //return this->player+1;
 }
 
 /**

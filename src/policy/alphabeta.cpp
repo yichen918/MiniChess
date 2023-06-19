@@ -17,23 +17,23 @@
  * @return Move 
  */
 
-int visited[BOARD_H][BOARD_W] = {0};
-int val = 0;
-int pick = 0;
-int final_pick = 0;
-int max_pick = 0;
-int min_pick = 0;
-int pick_array[10000];
-
 int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool minimaxingplayer)
 {
+    int val = 0;
+    
+    if(!state->legal_actions.size())
+      state->get_legal_actions();
+    if(state->game_state == WIN && minimaxingplayer) 
+      return 1e6;
+    else if(state->game_state == WIN && !minimaxingplayer)
+      return -1e6;
 
-    if(depth == 0)
-        return state->evaluate();
+    else if(depth == 0)
+        return state->evaluate(minimaxingplayer);
 
-    if(minimaxingplayer)
+    else if(minimaxingplayer)
     {
-        val = -INT16_MAX;
+        val = -1e6;
         for(auto &p: state->legal_actions)
         {
             val = std::max(val, alphabeta_cnt(state->next_state(p), depth-1, alpha, beta, false));
@@ -42,8 +42,9 @@ int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool 
                 break;
         }
     } 
-    else
+    else if(!minimaxingplayer)
     {
+        val = 1e6;
         for(auto &p: state->legal_actions)
         {
             val = std::min(val, alphabeta_cnt(state->next_state(p), depth-1, alpha, beta, true));
@@ -53,11 +54,11 @@ int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool 
         }
     }
 
-    if(depth == 3)
+    /*if(depth == last_depth)
     {
         pick_array[pick] = val;
         pick++;
-    }
+    }*/
     return val;
 }
 
@@ -72,14 +73,25 @@ int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool 
 Move Alphabeta::get_move(State *state, int depth){
   if(!state->legal_actions.size())
     state->get_legal_actions();
-
-  int m = alphabeta_cnt(state, 4, -INT16_MAX, INT16_MAX, state->player);
-
-  for(int k=0; k<pick ; k++)
+  
+  int i = 0;
+  int pick_array[10000];
+  for(auto &p : state->legal_actions)
   {
-    if(pick_array[k] <= min_pick) 
+    pick_array[i] = alphabeta_cnt(state->next_state(p), depth-1, -1e6, 1e6, true);
+    i++;
+  }
+
+
+  //int m = alphabeta_cnt(state, depth, -INT16_MAX, INT16_MAX, state->player);
+  int final_pick = 0;
+
+  int max_pick = -1e6;
+  for(int k=0; k < i ; k++)
+  {
+    if(pick_array[k] > max_pick) 
     {
-        min_pick = pick_array[k];
+        max_pick = pick_array[k];
         final_pick = k;
     }
   }
