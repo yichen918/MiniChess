@@ -28,6 +28,11 @@ int pick_array[10000];
 int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
 {
 
+    if(!state->legal_actions.size())
+      state->get_legal_actions();
+    if(state->game_state == WIN && state->player == minimaxingplayer) 
+      return INT64_MAX;
+
     if(depth == 0)
         return state->evaluate();
 

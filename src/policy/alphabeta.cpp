@@ -36,7 +36,7 @@ int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool 
         val = -INT16_MAX;
         for(auto &p: state->legal_actions)
         {
-            val = std::max(val, alphabeta_cnt(state->next_state(p), depth-1, alpha, beta, !minimaxingplayer));
+            val = std::max(val, alphabeta_cnt(state->next_state(p), depth-1, alpha, beta, false));
             alpha = std::max(alpha, val);
             if(alpha >= beta) 
                 break;
@@ -46,12 +46,11 @@ int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool 
     {
         for(auto &p: state->legal_actions)
         {
-            val = std::min(val, alphabeta_cnt(state->next_state(p), depth-1, alpha, beta, !minimaxingplayer));
+            val = std::min(val, alphabeta_cnt(state->next_state(p), depth-1, alpha, beta, true));
             beta = std::min(beta, val);
             if(alpha >= beta) 
                 break;
         }
-
     }
 
     if(depth == 3)
@@ -74,13 +73,13 @@ Move Alphabeta::get_move(State *state, int depth){
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
-  int m = alphabeta_cnt(state, 4, -INT16_MAX, INT16_MAX, 1);
+  int m = alphabeta_cnt(state, 4, -INT16_MAX, INT16_MAX, state->player);
 
   for(int k=0; k<pick ; k++)
   {
-    if(pick_array[k] <= max_pick) 
+    if(pick_array[k] <= min_pick) 
     {
-        max_pick = pick_array[k];
+        min_pick = pick_array[k];
         final_pick = k;
     }
   }
