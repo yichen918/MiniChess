@@ -7,7 +7,7 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
-
+bool player;
 /**
  * @brief evaluate the state
  * 
@@ -17,12 +17,16 @@
 int State::evaluate(){
   
   // [TODO] design your own evaluation function
+
+  //if(minimaxingplayer) player = 1;
+  //else player = 0;
+
   int value;
   int self_val, oppn_val;
   bool not_find_my_king = true;
   bool not_find_oppn_king = true;
-  auto self_board = this->board.board[this->player];
-  auto oppn_board = this->board.board[1 - this->player];
+  auto self_board = this->board.board[player];
+  auto oppn_board = this->board.board[player];
 
   for(int i=0;i<BOARD_H;i++)
   {

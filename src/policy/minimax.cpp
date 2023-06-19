@@ -46,7 +46,7 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
             val = std::min(val, minimax_cnt(state->next_state(p), depth-1, true));
     }
 
-    if(depth == 3)
+    if(depth == 1)
     {
         i = val;
         pick_array[pick] = i;
@@ -68,7 +68,7 @@ Move Minimax::get_move(State *state, int depth){
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
-  int m = minimax_cnt(state, 4, 1);
+  int m = minimax_cnt(state, 2, 1);
 
   for(int k=0; k<pick ; k++)
   {
