@@ -78,7 +78,7 @@ Move Alphabeta::get_move(State *state, int depth){
   int pick_array[100000];
   for(auto &p : state->legal_actions)
   {
-    pick_array[i] = alphabeta_cnt(state->next_state(p), depth-1, -100000000, 100000000, !state->player);
+    pick_array[i] = alphabeta_cnt(state->next_state(p), depth-1, -100000000, 100000000, false);
     i++;
   }
 
