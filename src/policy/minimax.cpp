@@ -48,7 +48,7 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
         for(auto &p: state->legal_actions)
             val = std::max(val, minimax_cnt(state->next_state(p), depth-1, false));
     } 
-    
+
     else
     {
         val = 800000;
@@ -56,7 +56,7 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
             val = std::min(val, minimax_cnt(state->next_state(p), depth-1, true));
     }
 
-    /*if(depth == 1) int this the value we save will change and not correct
+    /*if(depth == 1) in this the value we save will change and not correct
     {
         i = val;
         pick_array[pick] = i;
