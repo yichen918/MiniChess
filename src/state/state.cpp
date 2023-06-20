@@ -18,7 +18,7 @@ int State::evaluate(bool minimaxingplayer){
   
   // [TODO] design your own evaluation function
 
-  //decide this player is me or not; if minimaxingplayer is true then this player id=s me
+  //decide this player is me or not; if minimaxingplayer is true then this myplayer is me
   if(minimaxingplayer) myplayer = this->player;
   else myplayer = 1-this->player;
 
@@ -69,18 +69,12 @@ int State::evaluate(bool minimaxingplayer){
     }   
   }
   
-  if(not_find_my_king) {
-    std::cout << -2000 << std::endl;
+  if(not_find_my_king)
     return -2000;
-  }
-  else if(not_find_oppn_king)  {
-    std::cout << 2000 << std::endl;
+  else if(not_find_oppn_king)
     return 2000;
-  }
   
-  //std::cout << self_val - oppn_val << std::endl;
   return self_val - oppn_val;
-  
 }
 
 /**

@@ -31,27 +31,27 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
     if(!state->legal_actions.size())
       state->get_legal_actions();
     if(state->game_state == WIN && minimaxingplayer) 
-      return 1000000;
+      return 800000;
     else if(state->game_state == WIN && !minimaxingplayer)
-      return -1000000;
+      return -800000;
 
     else if(depth == 0)
         return state->evaluate(minimaxingplayer);
 
     else if(minimaxingplayer)
     {
-        val = -1000000;
+        val = -800000;
         for(auto &p: state->legal_actions)
             val = std::max(val, minimax_cnt(state->next_state(p), depth-1, false));
     } 
     else
     {
-        val = 1000000;
+        val = 800000;
         for(auto &p: state->legal_actions)
             val = std::min(val, minimax_cnt(state->next_state(p), depth-1, true));
     }
 
-    /*if(depth == 1)
+    /*if(depth == 1) int this the value we save will change and not correct
     {
         i = val;
         pick_array[pick] = i;
@@ -81,9 +81,9 @@ Move Minimax::get_move(State *state, int depth){
     i++;
   }
 
-  //int m = alphabeta_cnt(state, depth, -INT16_MAX, INT16_MAX, state->player);
+  //int m = alphabeta_cnt(state, depth, -800000, 800000, state->player);
   int final_pick = 0;
-  int max_pick = -1000000000;
+  int max_pick = -100000000;
   for(int k=0; k < i ; k++)
   {
     if(pick_array[k] > max_pick) 
