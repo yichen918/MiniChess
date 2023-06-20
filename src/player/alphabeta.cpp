@@ -40,7 +40,7 @@ void read_board(std::ifstream& fin) {
  */
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
-  int deep = 1;
+  int deep = 3;
   while(true) {
     // Choose a random spot.
     auto move = Alphabeta::get_move(root, deep++);

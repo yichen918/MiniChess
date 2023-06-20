@@ -22,7 +22,6 @@ int State::evaluate(bool minimaxingplayer){
   if(minimaxingplayer) myplayer = this->player;
   else myplayer = 1-this->player;
 
-  int value = 0;
   int self_val = 0;
   int oppn_val = 0;
   bool not_find_my_king = true;
@@ -37,35 +36,35 @@ int State::evaluate(bool minimaxingplayer){
       if( self_board[i][j] == 1) 
       {
         self_val += 50;
-        //if(this->player == 1) self_val += (60 - 10*(BOARD_H - i));
-        //else self_val += 10*(BOARD_H - i);
+        if(this->player == 1) self_val += (60 - 10*(BOARD_H - i));
+        else self_val += 10*(BOARD_H - i);
       }
       if( self_board[i][j] == 2) self_val += 30;
       if( self_board[i][j] == 3) self_val += 35;
-      if( self_board[i][j] == 4) self_val += 40;
+      if( self_board[i][j] == 4) self_val += 60;
       if( self_board[i][j] == 5) self_val += 100;
       if( self_board[i][j] == 6) 
       {
         not_find_my_king = false;
-        ///if(self_board[i+1][j] == 0 || self_board[i-1][j] == 0 || self_board[i][j+1] == 0 || self_board[i][j-1] == 0)
-          //self_val -= 20;
+        if(self_board[i+1][j] == 0 || self_board[i-1][j] == 0 || self_board[i][j+1] == 0 || self_board[i][j-1] == 0)
+          self_val -= 20;
       }
 
       if( oppn_board[i][j] == 1) 
       {
         oppn_val += 50;
-        //if(this->player == 1) oppn_val += (60 - 10*(BOARD_H - i));
-        //else oppn_val += 10*(BOARD_H - i);
+        if(this->player == 1) oppn_val += (60 - 10*(BOARD_H - i));
+        else oppn_val += 10*(BOARD_H - i);
       }
       if( oppn_board[i][j] == 2) oppn_val += 30;
       if( oppn_board[i][j] == 3) oppn_val += 35;
-      if( oppn_board[i][j] == 4) oppn_val += 40;
+      if( oppn_board[i][j] == 4) oppn_val += 60;
       if( oppn_board[i][j] == 5) oppn_val += 100;
       if( oppn_board[i][j] == 6) 
       {
         not_find_oppn_king = false;
-        //if(oppn_board[i+1][j] == 0 || oppn_board[i-1][j] == 0 || oppn_board[i][j+1] == 0 || oppn_board[i][j-1] == 0)
-          //oppn_val -= 20;
+        if(oppn_board[i+1][j] == 0 || oppn_board[i-1][j] == 0 || oppn_board[i][j+1] == 0 || oppn_board[i][j-1] == 0)
+          oppn_val -= 20;
       }
     }   
   }
@@ -82,7 +81,6 @@ int State::evaluate(bool minimaxingplayer){
   //std::cout << self_val - oppn_val << std::endl;
   return self_val - oppn_val;
   
-
 }
 
 /**
