@@ -30,10 +30,14 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
 
     if(!state->legal_actions.size())
       state->get_legal_actions();
-    if(state->game_state == WIN && minimaxingplayer) 
-      return 800000;
-    else if(state->game_state == WIN && !minimaxingplayer)
-      return -800000;
+
+    if(state->game_state == WIN)
+    {
+        if(minimaxingplayer == true) //the winner is me
+            return 8000000;
+        else
+            return -8000000; //the winner is the opponent
+    }
 
     else if(depth == 0)
         return state->evaluate(minimaxingplayer);
@@ -44,6 +48,7 @@ int Minimax::minimax_cnt(State *state, int depth, bool minimaxingplayer)
         for(auto &p: state->legal_actions)
             val = std::max(val, minimax_cnt(state->next_state(p), depth-1, false));
     } 
+    
     else
     {
         val = 800000;

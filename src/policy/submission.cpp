@@ -23,10 +23,14 @@ int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool 
     
     if(!state->legal_actions.size())
       state->get_legal_actions();
-    if(state->game_state == WIN && minimaxingplayer) 
-      return 8000000;
-    else if(state->game_state == WIN && !minimaxingplayer)
-      return -8000000;
+
+    if(state->game_state == WIN)
+    {
+        if(minimaxingplayer == true) //the winner is me
+            return 8000000;
+        else
+            return -8000000; //the winner is the opponent
+    }
 
     else if(depth == 0)
         return state->evaluate(minimaxingplayer);
@@ -42,6 +46,7 @@ int Alphabeta::alphabeta_cnt(State *state, int depth, int alpha, int beta, bool 
                 break;
         }
     } 
+    
     else if(!minimaxingplayer)
     {
         val = 80000000;
